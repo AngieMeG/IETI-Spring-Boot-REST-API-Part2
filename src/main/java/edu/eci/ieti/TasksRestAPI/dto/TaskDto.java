@@ -1,5 +1,8 @@
 package edu.eci.ieti.TasksRestAPI.dto;
 
+import edu.eci.ieti.TasksRestAPI.data.TaskStatus;
+import edu.eci.ieti.TasksRestAPI.exception.TaskException;
+
 public class TaskDto {
 
     private String name;
@@ -20,7 +23,7 @@ public class TaskDto {
         this.description = description;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status){
         this.status = status;
     }
 

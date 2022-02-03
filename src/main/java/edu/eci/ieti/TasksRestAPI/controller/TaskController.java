@@ -30,40 +30,40 @@ public class TaskController {
 	}
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAll() {
+    public ResponseEntity<?> getAll() {
         
         return ResponseEntity.status(HttpStatus.OK).body(taskService.getAll());
     }
 
     @GetMapping( "/{id}" )
-    public ResponseEntity<Task> findById( @PathVariable String id ) {
+    public ResponseEntity<?> findById( @PathVariable String id ) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(taskService.findById(id));
         } catch (TaskException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @PostMapping
-    public ResponseEntity<Task> create( @RequestBody TaskDto taskDto ) {
+    public ResponseEntity<?> create( @RequestBody TaskDto taskDto ) {
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(taskService.create(new Task(taskDto)));
         } catch (TaskException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
     @PutMapping( "/{id}" )
-    public ResponseEntity<Task> update( @RequestBody TaskDto taskDto, @PathVariable String id ) {
+    public ResponseEntity<?> update( @RequestBody TaskDto taskDto, @PathVariable String id ) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(taskService.update(new Task(taskDto), id));
         } catch (TaskException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @DeleteMapping( "/{id}" )
-    public ResponseEntity<Boolean> delete( @PathVariable String id ) {
+    public ResponseEntity<?> delete( @PathVariable String id ) {
         
         return ResponseEntity.status(HttpStatus.OK).body(taskService.deleteById(id));
     }

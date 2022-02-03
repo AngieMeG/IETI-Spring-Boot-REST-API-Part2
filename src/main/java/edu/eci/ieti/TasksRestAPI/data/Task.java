@@ -1,6 +1,7 @@
 package edu.eci.ieti.TasksRestAPI.data;
 
 import edu.eci.ieti.TasksRestAPI.dto.TaskDto;
+import edu.eci.ieti.TasksRestAPI.exception.TaskException;
 
 public class Task {
 
@@ -16,10 +17,16 @@ public class Task {
 
     }
 
-    public Task(TaskDto taskDto) {
+    public Task(TaskDto taskDto) throws TaskException {
         name = taskDto.getName();
         description = taskDto.getDescription();
-        status = taskDto.getStatus();
+        try{
+            TaskStatus.valueOf(taskDto.getStatus());
+            status = taskDto.getStatus();
+        } catch (IllegalArgumentException ex){
+            throw new TaskException(TaskException.INVALID_STATUS);
+        }
+        
         assignedTo = taskDto.getAssignedTo();
         dueDate = taskDto.getDueDate();
     }
@@ -36,8 +43,13 @@ public class Task {
         this.description = description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status) throws TaskException {
+        try{
+            TaskStatus.valueOf(status);
+            this.status = status;
+        } catch (IllegalArgumentException ex){
+            throw new TaskException(TaskException.INVALID_STATUS);
+        }
     }
 
     public void setAssignedTo(String assignedTo) {
